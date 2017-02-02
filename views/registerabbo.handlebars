@@ -1,0 +1,30 @@
+<h2 class="page-header">Register Abbonement</h2>
+{{#if errors}}
+      {{#each errors}}
+        <div class="alert alert-danger">{{msg}}</div>
+      {{/each}}
+{{/if}}
+<form method="post" action="/users/registerabbo">
+  <div class="form-group">
+    <label>Bank naam</label>
+    <input type="text" class="form-control" placeholder="Bank Naam" name="bankname">
+  </div>
+   <div class="form-group">
+    <label>naam rekening eigenaar</label>
+    <input type="email" class="form-control" placeholder="Rekening houder" name="naamhouder">
+  </div>
+  <div class="form-group">
+    <label>bank rekening nummer</label>
+    <input type="text" class="form-control" placeholder="Rekening nummer" name="accountnummer">
+  </div>
+  <div class="form-group">
+    <label>soort Abbonement</label>
+    <select class="form-control" name="soortabbonement">
+      <option name="2">weekend</option>
+      <option name="4">vierdagen</option>
+      <option name="7">unlimited</option>
+    </select>
+  </div>
+</form>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
