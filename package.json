@@ -24,6 +24,8 @@
     "mongodb": "*",
     "mongoose": "*",
     "mongoose-auto-increment ": "*",
+    "nodemailer": "*",
+    "plotly":"*",
     "passport": "*",
     "passport-http": "*",
     "passport-local": "*"

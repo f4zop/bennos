@@ -11,43 +11,80 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var moment = require('moment');
+var Ploty = require('plotly');
+
 moment().format();
 
-// //chartjs
-var Chart = require('chart.js')
-var myLineChart = new Chart(ctx, {
-    type: 'line',
-    data: data,
-    options: options
+//udpsocket
+//udp4 sock
+var net = require('net');
+
+var server = net.createServer();
+server.on('connection', handleConnection);
+
+server.listen(3333, function() {
+  console.log('server listening to %j', server.address());
 });
-var data = {
-    labels: [ "Monday","Tuesday","Wensday","Thursday","Friday","Saturday", "Sunday"],
-    datasets: [
-        {
-            label: "My First dataset",
-            fill: false,
-            lineTension: 0.1,
-            backgroundColor: "rgba(75,192,192,0.4)",
-            borderColor: "rgba(75,192,192,1)",
-            borderCapStyle: 'butt',
-            borderDash: [],
-            borderDashOffset: 0.0,
-            borderJoinStyle: 'miter',
-            pointBorderColor: "rgba(75,192,192,1)",
-            pointBackgroundColor: "#fff",
-            pointBorderWidth: 1,
-            pointHoverRadius: 5,
-            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-            pointHoverBorderColor: "rgba(220,220,220,1)",
-            pointHoverBorderWidth: 2,
-            pointRadius: 1,
-            pointHitRadius: 10,
-            data: [65, 59, 80, 81, 56, 55, 40],
-            spanGaps: false,
-        }
-    ]
+
+function handleConnection(conn) {
+  var remoteAddress = conn.remoteAddress + ':' + conn.remotePort;
+  console.log('new client connection from %s', remoteAddress);
+
+  conn.on('data', onConnData);
+  conn.once('close', onConnClose);
+  conn.on('error', onConnError);
+
+  function decode_utf8( s ) {
+  return decodeURIComponent( escape( s ) );
+}
+
+  function onConnData(d) {
+    data = decode_utf8(d)
+      if (data == '1'){
+        console.log('connection data from %s: %j', remoteAddress, data);
+        conn.write('true');
+      }
+  }
+
+  function onConnClose() {
+    console.log('connection from %s closed', remoteAddress);
+  }
+
+  function onConnError(err) {
+    console.log('Connection %s error: %s', remoteAddress, err.message);
+  }
+}
+
+
+// mailer
+const nodemailer = require('nodemailer');
+
+// create reusable transporter object using the default SMTP transport
+let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'gmail.user@gmail.com',
+        pass: 'yourpass'
+    }
+});
+
+// setup email data with unicode symbols
+let mailOptions = {
+    from: '"Fred Foo 👻" <foo@blurdybloop.com>', // sender address
+    to: 'bar@blurdybloop.com, baz@blurdybloop.com', // list of receivers
+    subject: 'Hello ✔', // Subject line
+    text: 'Hello world ?', // plain text body
+    html: '<b>Hello world ?</b>' // html body
 };
-var myChart = new Chart({...})
+
+// send mail with defined transport object
+transporter.sendMail(mailOptions, (error, info) {
+    if (error) {
+        return console.log(error);
+    }
+    console.log('Message %s sent: %s', info.messageId, info.response);
+});
+
 
 mongoose.connect('mongodb://localhost/benno');
 var db = mongoose.connection;
