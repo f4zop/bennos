@@ -23,41 +23,49 @@ router.get('/registerabbo', function(req, res){
 router.post('/registerabbo', function(req, res){
 	var banknaam = req.body.banknaam;
 	var naamhouder = req.body.naamhouder;
-	var rekeningnummer = req.body.accountnummer;
-	var abbonement = req.body.soortabbonement.selected;
-});
+	var accountnummer = req.body.accountnummer;
+	var soortabbonement = req.body.soortabbonement.value;
+
+	// Validation
+	req.checkBody('banknaam', 'Name is required').notEmpty();
+	req.checkBody('naamhouder', 'Email is required').notEmpty();
+	req.checkBody('accountnummer', 'Account number is required').notEmpty();
+	req.checkBody('soortabbonement', 'submition type is required').notEmpty();
 
 var errors = req.validationErrors();
 
 if(errors){
-	res.render('register',{
+	res.render('registerabbo',{
 		errors:errors
 	});
 } else {
 	var newUserSubmition = new Bank({
 		bankname: banknaam,
 		naamhouder: naamhouder,
-		accountnummer: rekeningnummer,
-		soortabbonement: abbonement
-	}, new Abbonementen({
-		coachnaam: '',''
-
+		accountnummer: accountnummer,
+		soortabbonement: soortabbonement
+	}, new Abbo({
+		choachemail: '',
 	}));
 
-	User.createUser(newUser, function(err, user){
+	User.createUsersubmit(newUserSubmition, function(err, user){
 		if(err) throw err;
 		console.log(user);
 	});
 
-	req.flash('success_msg', 'You are registered and can now login');
+	req.flash('success_msg', 'You are submitted and can now see your progress');
 
 	res.redirect('/users/login');
 }
 });
 
 // Register User
+// Register User
 router.post('/register', function(req, res){
 	var name = req.body.name;
+	var lastname = req.body.lastname;
+	var woonplaats = req.body.woonplaats;
+	var postcode = req.body.postcode;
 	var email = req.body.email;
 	var username = req.body.username;
 	var password = req.body.password;
@@ -65,6 +73,10 @@ router.post('/register', function(req, res){
 
 	// Validation
 	req.checkBody('name', 'Name is required').notEmpty();
+	req.checkBody('lastname', 'lastname is required').notEmpty();
+	req.checkBody('woonplaats', 'lastname is required').notEmpty();
+	req.checkBody('postcode', 'lastname is required').notEmpty();
+
 	req.checkBody('email', 'Email is required').notEmpty();
 	req.checkBody('email', 'Email is not valid').isEmail();
 	req.checkBody('username', 'Username is required').notEmpty();
@@ -80,6 +92,9 @@ router.post('/register', function(req, res){
 	} else {
 		var newUser = new User({
 			name: name,
+			lastname : lastname,
+			woonplaats: woonplaats,
+			postcode: postcode,
 			email:email,
 			username: username,
 			password: password

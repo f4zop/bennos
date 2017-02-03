@@ -28,7 +28,7 @@ var AbbonementenSchema = mongoose.Schema({
 		type:String
 	},
 	soortabbo: {
-		type: String
+		type: Number
 	},
 });
 
@@ -57,11 +57,15 @@ var BankSchema = mongoose.Schema({
 	}
 });
 
-
 var Bank = module.exports = mongoose.model('Bank', BankSchema);
 var Machine = module.exports = mongoose.model('Machine', MachineSchema);
 var Abbonementen = module.exports = mongoose.model('Abbo', AbbonementenSchema);
 var User = module.exports = mongoose.model('User', UserSchema);
+
+module.exports.createUsersubmit = function(newUserSubmition, callback){
+	var query = {username : naamhouder};
+	User.findById(id, callback);
+}
 
 module.exports.createUser = function(newUser, callback){
 	bcrypt.genSalt(10, function(err, salt) {
@@ -78,7 +82,7 @@ module.exports.getUserByUsername = function(username, callback){
 }
 
 
-module.exports.getTimebyMachineId = function(time, callback){
+module.exports.getTimebyMachineId = function(time, id, callback){
 	var query = {time:time};
 	User.findById(id, callback);
 }

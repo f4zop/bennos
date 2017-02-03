@@ -1,2 +1,8 @@
  <h2 class="page-header">Dashboard</h2>
-<p>Welcome to your dashboard</p>  
+<p>Welcome to your dashboard</p>
+{{#if user}}
+<canvas id="myChart" width="400" height="400"></canvas>
+<script>
+var ctx = document.getElementById("myChart");
+</script>
+{{/if}}

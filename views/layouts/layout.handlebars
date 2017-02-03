@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>LoginApp</title>
+	<title>Benno's Sportschool</title>
 	<link rel="stylesheet" href="/css/bootstrap.css" />
 	<link rel="stylesheet" href="/css/style.css" />
 </head>
@@ -12,8 +12,8 @@
           <ul class="nav nav-pills pull-right">
             {{#if user}}
               <li role="presentation"><a href="/">Dashboard</a></li>
-              <li role="presentation"><a href="/users/logout">Logout</a></li>
               <li role="presentation"><a href="/users/registerabbo">Abbonementen</a></li>
+							<li role="presentation"><a href="/users/logout">Logout</a></li>
             {{else}}
               <li role="presentation"><a href="/users/login">Login</a></li>
               <li role="presentation"><a href="/users/register">Register</a></li>
@@ -45,9 +45,13 @@
       </div>
 
       <footer class="footer">
-        <p>&copy; 2015 LoginApp, Inc.</p>
+        <p>&copy; 2017 Benno's Sportschool, Inc.</p>
       </footer>
 
     </div> <!-- /container -->
+		<script src="Chart.js"></script>
+		<script>
+		    var myChart = new Chart({...})
+		</script>
 </body>
 </html>

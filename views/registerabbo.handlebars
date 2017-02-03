@@ -1,3 +1,4 @@
+{{#if user}}
 <h2 class="page-header">Register Abbonement</h2>
 {{#if errors}}
       {{#each errors}}
@@ -7,7 +8,7 @@
 <form method="post" action="/users/registerabbo">
   <div class="form-group">
     <label>Bank naam</label>
-    <input type="text" class="form-control" placeholder="Bank Naam" name="bankname">
+    <input type="text" class="form-control" placeholder="Bank Naam" name="banknaam">
   </div>
    <div class="form-group">
     <label>naam rekening eigenaar</label>
@@ -20,11 +21,12 @@
   <div class="form-group">
     <label>soort Abbonement</label>
     <select class="form-control" name="soortabbonement">
-      <option name="2">weekend</option>
-      <option name="4">vierdagen</option>
-      <option name="7">unlimited</option>
+      <option value="2">weekend</option>
+      <option value="4">vierdagen</option>
+      <option value="7">unlimited</option>
     </select>
   </div>
 </form>
   <button type="submit" class="btn btn-default">Submit</button>
 </form>
+{{/if}}
